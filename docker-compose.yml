@@ -1,0 +1,12 @@
+version: '2'
+services:
+  dockerapp:
+    image: ehayanis/demo-webapp
+    ports:
+      - "8080:8080"
+
+  mongodb:
+    image: ehayanis/mongo
+    ports:
+      - "28017:28017"
+      - "27017:27017"
