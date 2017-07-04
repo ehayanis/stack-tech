@@ -2,6 +2,7 @@ export M2=/Users/dimeh/Documents/Tools/apache-maven-3.3.9/bin
 export PATH=$PATH:$M2
 
 > docker build -t ehayanis/demo-webapp .
+=======
 **Download and Start Mongo DB Server**
 > docker run -P -d --name mongodb mongo
 
