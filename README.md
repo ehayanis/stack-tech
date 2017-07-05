@@ -1,6 +1,6 @@
 export M2=/Users/dimeh/Documents/Tools/apache-maven-3.3.9/bin
 export PATH=$PATH:$M2
-export DOTOKEN=2d9bff2b7729c830987a586faecc0e313a6fee015b4f5020f2ae8b8cf2071cd7
+export DOTOKEN=98d323b628a53ea06cfc1c8989b23169e9b3c72dea3c1f1044297f8783fa643a
 
 > docker build -t ehayanis/demo-webapp .
 =======
@@ -68,4 +68,11 @@ db.testCollection.remove({'title':'MongoDB Overview'})
 **Using POSTMAN** 
 POST method, body raw type and content-type json 
 value: {"firstName":"Luis","lastName":"OSS"}
+
+**Error: Can't connect to docker daemon**
+Provision Centos VM, remvoe docker-ce then install docker 
+add root to docker group 
+usermod -aG docker $(whoami)
+
+
 
