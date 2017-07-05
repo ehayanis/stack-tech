@@ -1,5 +1,6 @@
 export M2=/Users/dimeh/Documents/Tools/apache-maven-3.3.9/bin
 export PATH=$PATH:$M2
+export DOTOKEN=2d9bff2b7729c830987a586faecc0e313a6fee015b4f5020f2ae8b8cf2071cd7
 
 > docker build -t ehayanis/demo-webapp .
 =======
@@ -15,11 +16,11 @@ export PATH=$PATH:$M2
 > db.createCollection('testCollection')
 > db.getCollectionNames() 
 
-**show dbs
+> show dbs
 To display the DB you are using;
-**db 
+> db 
 The operation should return test which is the default database. To switch DB 
-**use <database>
+> use <database>
 
 
 **MongoDB Overview**
@@ -50,9 +51,10 @@ db.testCollection.remove() <br>
 db.testCollection.remove({'title':'MongoDB Overview'})
 
 
-DOCKER and VMs provisionning
+**DOCKER and VMs provisionning**
 
-> docker-machine create --driver digitalocean --digitalocean-access-token 2d9bff2b7729c830987a586faecc0e313a6fee015b4f5020f2ae8b8cf2071cd7 demo-machine
+> docker-machine create --driver digitalocean -digitalocean-image centos-7-0-x64 --digitalocean-access-token $DOTOKEN centos-docker
+> docker-machine create --driver digitalocean --digitalocean-access-token $DOTOKEN default-docker
 
 > docker-machine env demo-machine 
 
@@ -63,7 +65,7 @@ DOCKER and VMs provisionning
 > docker-compose up -d
 
 
-Using POSTMAN: 
+**Using POSTMAN** 
 POST method, body raw type and content-type json 
 value: {"firstName":"Luis","lastName":"OSS"}
 

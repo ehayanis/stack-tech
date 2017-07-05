@@ -1,7 +1,7 @@
 version: '2'
 services:
   dockerapp:
-    image: ehayanis/demo-webapp
+    build: .
     ports:
       - "8080:8080"
 
