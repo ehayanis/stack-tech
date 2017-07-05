@@ -13,7 +13,14 @@ export PATH=$PATH:$M2
 **Create and list collections**
 > use microserviceblog
 > db.createCollection('testCollection')
-> db.getCollectionNames()
+> db.getCollectionNames() 
+
+**show dbs
+To display the DB you are using;
+**db 
+The operation should return test which is the default database. To switch DB 
+**use <database>
+
 
 **MongoDB Overview**
 > Database, Collection (Table), Document (Row)
@@ -54,3 +61,9 @@ DOCKER and VMs provisionning
 > docker info 
 
 > docker-compose up -d
+
+
+Using POSTMAN: 
+POST method, body raw type and content-type json 
+value: {"firstName":"Luis","lastName":"OSS"}
+
