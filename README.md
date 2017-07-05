@@ -71,8 +71,8 @@ value: {"firstName":"Luis","lastName":"OSS"}
 
 **Error: Can't connect to docker daemon**
 Provision Centos VM, remvoe docker-ce then install docker 
-add root to docker group 
-usermod -aG docker $(whoami)
+-- add root to docker group 
+-- usermod -aG docker $(whoami)
 
 
 
