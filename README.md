@@ -45,7 +45,7 @@ db.testCollection.remove({'title':'MongoDB Overview'})
 
 DOCKER and VMs provisionning
 
-> docker-machine create --driver digitalocean --digitalocean-access-token 9ac826913187236a863f38942a219a5e7336139efc1cd21809ed97d75a7bdd14 demo-machine
+> docker-machine create --driver digitalocean --digitalocean-access-token 2d9bff2b7729c830987a586faecc0e313a6fee015b4f5020f2ae8b8cf2071cd7 demo-machine
 
 > docker-machine env demo-machine 
 
