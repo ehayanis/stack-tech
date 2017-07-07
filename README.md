@@ -51,7 +51,7 @@ db.testCollection.remove() <br>
 db.testCollection.remove({'title':'MongoDB Overview'})
 
 
-**DOCKER and VMs provisionning**
+**DOCKER and VMs provisionning DO**
 
 > docker-machine create --driver digitalocean -digitalocean-image centos-7-0-x64 --digitalocean-access-token $DOTOKEN centos-docker
 > docker-machine create --driver digitalocean --digitalocean-access-token $DOTOKEN default-docker
@@ -74,5 +74,6 @@ Provision Centos VM, remvoe docker-ce then install docker
 -- add root to docker group 
 -- usermod -aG docker $(whoami)
 
-
-
+**DOCKER and VMs provisionning AWS**
+> Create an HOME/.aws/credentials file and copy ID and secret key 
+> Run "docker-machine create --drvier amazonec2 aws-node"
