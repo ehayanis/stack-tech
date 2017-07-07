@@ -2,6 +2,7 @@ package com.xeigna.ms.demo.controller;
 
 import com.xeigna.ms.demo.model.Person;
 import com.xeigna.ms.demo.service.PersonService;
+import com.xeigna.ms.demo.util.CustomErrorType;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("/api")
 public class PersonController {
 
     // public static final Logger logger = LoggerFactory.getLogger();
@@ -37,11 +38,10 @@ public class PersonController {
     public ResponseEntity<?> getUser(@PathVariable("id") String id) {
         Person person = personService.findById(id);
         if (person == null) {
-            logger.error("User with id {} not found.", id);
             return new ResponseEntity(new CustomErrorType("User with id " + id
                     + " not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<Person>(person, HttpStatus.OK);
     }
 
 }
