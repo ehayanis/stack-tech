@@ -1,4 +1,4 @@
-package com.xeigna.ms.demo.controller;
+package com.xeigna.ms.demo.model;
 
 import org.springframework.data.annotation.Id;
 

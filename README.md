@@ -59,7 +59,7 @@ db.testCollection.remove({'title':'MongoDB Overview'})
 > docker-machine env demo-machine 
 
 > eval $(docker-machine env demo-machine)
-
+> eval $(docker-machine env -u)
 > docker info 
 
 > docker-compose up -d
