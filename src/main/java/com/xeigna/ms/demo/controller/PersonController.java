@@ -43,7 +43,7 @@ public class PersonController {
         return new ResponseEntity<Person>(person, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/person/", method = RequestMethod.POST)
+    @RequestMapping(value = "/person", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody Person person, UriComponentsBuilder ucBuilder) {
         if (personService.isPersonExist(person)) {
             return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " +
