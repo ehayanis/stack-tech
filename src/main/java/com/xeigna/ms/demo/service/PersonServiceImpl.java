@@ -30,12 +30,32 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void deletePerson(String id) {
+    public List<Person> findAllPersons() {
+        return repository.findAll();
+    }
+
+    @Override
+    public boolean isPersonExist(Person person) {
+        return findById(person.getId()) != null;
+    }
+
+    @Override
+    public void savePerson(Person person) {
+        repository.save(person);
+    }
+
+    @Override
+    public void updatePerson(Person person) {
+        savePerson(person);
+    }
+
+    @Override
+    public void deletePersonById(String id) {
         repository.delete(id);
     }
 
     @Override
-    public List<Person> findAllPersons() {
-        return repository.findAll();
+    public void deleteAllPersons() {
+        repository.deleteAll();
     }
 }

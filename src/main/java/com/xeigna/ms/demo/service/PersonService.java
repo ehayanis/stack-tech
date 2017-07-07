@@ -12,7 +12,15 @@ public interface PersonService {
 
     List<Person> findByFirstName(String firstName);
 
-    void deletePerson(String id);
-
     List<Person> findAllPersons();
+
+    public boolean isPersonExist(Person person);
+
+    void savePerson(Person person);
+
+    void updatePerson(Person person);
+
+    void deletePersonById(String id);
+
+    void deleteAllPersons();
 }
