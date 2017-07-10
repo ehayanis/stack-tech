@@ -3,7 +3,7 @@ services:
   back:
     build: .
     ports:
-      - "8080:8080"
+      - "9000:9000"
     depends_on:
       - mongodb
 
