@@ -28,7 +28,9 @@ pipeline {
         }
 
         stage ('Docker Image Build') {
-            docker.build("ehayanis/stack-tech")
+            steps {
+                docker.build("ehayanis/stack-tech")
+            }
         }
     }
 }
