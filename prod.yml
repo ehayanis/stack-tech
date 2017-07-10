@@ -1,14 +1,22 @@
 version: '2'
 services:
   back:
-    build: .
+    image: ehayanis/stack-tech
     ports:
       - "8080:8080"
     depends_on:
       - mongodb
+    networks:
+      - mynet
 
   mongodb:
     image: ehayanis/mongo
     ports:
       - "28017:28017"
       - "27017:27017"
+    networks:
+      - mynet
+
+networks:
+   mynet:
+     driver: overlay

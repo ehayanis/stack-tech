@@ -1,11 +1,19 @@
 export M2=/Users/dimeh/Documents/Tools/apache-maven-3.3.9/bin
 export PATH=$PATH:$M2
-export DOTOKEN=98d323b628a53ea06cfc1c8989b23169e9b3c72dea3c1f1044297f8783fa643a
 
-> docker build -t ehayanis/demo-webapp .
+
+export DIGITALOCEAN_ACCESS_TOKEN=f63699a397dd8176932c578b03fdcdbd00b721733be6ffe38dde44c3cd0ded0d
+export DIGITALOCEAN_PRIVATE_NETWORKING=true
+export DIGITALOCEAN_IMAGE=centos-7-x64
+
+> docker build -t ehayanis/stack-tech .
 =======
 **Download and Start Mongo DB Server**
 > docker run -P -d --name mongodb mongo
+
+**to push an image:
+Docker login 
+docker push ehayanis/IMAGE_NAME
 
 **Use of mongodb**
 > docker exec -it mongodb /bin/bash <br>
@@ -52,22 +60,23 @@ db.testCollection.remove({'title':'MongoDB Overview'})
 
 
 **DOCKER and VMs provisionning DO**
-
-> docker-machine create --driver digitalocean -digitalocean-image centos-7-0-x64 --digitalocean-access-token $DOTOKEN centos-docker
-> docker-machine create --driver digitalocean --digitalocean-access-token $DOTOKEN default-docker
-
 > docker-machine env demo-machine 
 
 > eval $(docker-machine env demo-machine)
-> eval $(docker-machine env -u)
+> Switch back to local: eval $(docker-machine env -u)
 > docker info 
 
 > docker-compose up -d
 
 
+** Set Counsl and Docker Swarm ** 
+Export KV IP: 
+export KV_IP="10.132.20.128"
+
 **Using POSTMAN** 
 POST method, body raw type and content-type json 
 value: {"firstName":"Luis","lastName":"OSS"}
+
 
 **Error: Can't connect to docker daemon**
 Provision Centos VM, remvoe docker-ce then install docker 
@@ -76,4 +85,12 @@ Provision Centos VM, remvoe docker-ce then install docker
 
 **DOCKER and VMs provisionning AWS**
 > Create an HOME/.aws/credentials file and copy ID and secret key 
-> Run "docker-machine create --drvier amazonec2 aws-node"
+> Run "docker-machine create --driver amazonec2 aws-node"
+
+
+docker swarm join --token SWMTKN-1-3ojs4f8avt30mga96qex39i1m0uien9blvie60t5cburag7tpt-c7yyekfwlzwgfkoyyl2kdftf1 10.132.20.128:2377
+
+**Install and COnfigure Jenkins
+export JENKINS_HOME=/Users/dimeh/Documents/workspace/pic/jenkins/home/
+nohup java -jar jenkins.was &
+java -jar jenkins.war > output.log 2>&1 &
