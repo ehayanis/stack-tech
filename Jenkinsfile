@@ -18,7 +18,7 @@ pipeline {
         stage ('Maven Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
-                docker.build("ehayanis/stack-tech")
+                sh 'docker build -t ehayanis/stack-tech .'
             }
             post {
                 success {
