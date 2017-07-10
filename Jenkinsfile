@@ -34,12 +34,10 @@ pipeline {
 
         stage ('Run & Deploy Image') {
             steps {
-                sh 'eval $(docker-machine env worker)'
                 sh 'docker-compose stop'
                 sh 'docker-compose rm -f'
                 sh 'docker-compose up -d'
-                sh 'eval $(docker-machine env -u)'
-                sh 'echo "Deployment with Success, You can login to you web app through this link : http://"$(docker-machine ip worker)":8080/api/person"'
+                echo 'Deployment with Success'
             }
         }
     }
