@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    def app
 
     tools {
         maven 'Maven 3.3.9'
@@ -19,6 +18,7 @@ pipeline {
         stage ('Maven Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
+
             }
             post {
                 success {
@@ -28,7 +28,7 @@ pipeline {
         }
 
         stage ('Docker Image Build') {
-            app = docker.build("ehayanis/stack-tech")
+            docker.build("ehayanis/stack-tech")
         }
     }
 }
