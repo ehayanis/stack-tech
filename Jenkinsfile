@@ -18,18 +18,12 @@ pipeline {
         stage ('Maven Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
-
+                docker.build("ehayanis/stack-tech")
             }
             post {
                 success {
                     archiveArtifacts 'target/*.jar'
                 }
-            }
-        }
-
-        stage ('Docker Image Build') {
-            steps {
-                docker.build("ehayanis/stack-tech")
             }
         }
     }
