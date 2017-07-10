@@ -31,5 +31,14 @@ pipeline {
                 sh 'docker build -t ehayanis/stack-tech .'
             }
         }
+
+        stage ('Run & Deploy Image') {
+            steps {
+                sh 'eval $(docker-machine env worker)'
+                sh 'docker-compose up -d'
+                sh 'eval $(docker-machine env -u)'
+                sh 'echo "Deployment with Success!! You can login to you web app through this link"'
+            }
+        }
     }
 }
