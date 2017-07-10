@@ -1,5 +1,7 @@
 pipeline {
     agent any
+    def app
+
     tools {
         maven 'Maven 3.3.9'
         jdk 'jdk8'
@@ -14,7 +16,7 @@ pipeline {
             }
         }
 
-        stage ('Build') {
+        stage ('Maven Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
             }
@@ -23,6 +25,10 @@ pipeline {
                     archiveArtifacts 'target/*.jar'
                 }
             }
+        }
+
+        stage ('Docker Image Build') {
+            app = docker.build("ehayanis/stack-tech")
         }
     }
 }
