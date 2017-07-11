@@ -4,8 +4,6 @@ services:
     build: .
     ports:
       - "9000:9000"
-    depends_on:
-      - mongodb
 
   mongodb:
     image: ehayanis/mongo

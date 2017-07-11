@@ -6,8 +6,6 @@ services:
       - "8081:8081"
     depends_on:
       - back
-    networks:
-      - mynet
 
   back:
     image: ehayanis/stack-tech
@@ -15,17 +13,9 @@ services:
       - "9000:9000"
     depends_on:
       - mongodb
-    networks:
-      - mynet
 
   mongodb:
     image: ehayanis/mongo
     ports:
       - "28017:28017"
       - "27017:27017"
-    networks:
-      - mynet
-
-networks:
-   mynet:
-     driver: overlay

@@ -93,4 +93,4 @@ docker swarm join --token SWMTKN-1-3ojs4f8avt30mga96qex39i1m0uien9blvie60t5cbura
 **Install and COnfigure Jenkins
 export JENKINS_HOME=/Users/dimeh/Documents/workspace/pic/jenkins/home/
 nohup java -jar jenkins.was &
-java -jar jenkins.war > output.log 2>&1 &
+nohup java -jar jenkins.war > output.log 2>&1 &

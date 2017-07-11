@@ -31,14 +31,5 @@ pipeline {
                 sh 'docker build -t ehayanis/stack-tech .'
             }
         }
-
-        stage ('Run & Deploy Image') {
-            steps {
-                sh 'docker-compose stop'
-                sh 'docker-compose rm -f'
-                sh 'docker-compose up -d'
-                echo 'Deployment with Success'
-            }
-        }
     }
 }
