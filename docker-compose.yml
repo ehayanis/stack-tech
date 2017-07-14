@@ -4,9 +4,15 @@ services:
     build: .
     ports:
       - "9000:9000"
+    links:
+      - mongo:mongo
+    depends_on:
+      - mongo
 
-  mongodb:
+  mongo:
     image: ehayanis/mongo
     ports:
       - "28017:28017"
       - "27017:27017"
+    volumes:
+      - /private/var/data:/data/db

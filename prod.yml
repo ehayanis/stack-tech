@@ -4,6 +4,8 @@ services:
     image: ehayanis/stack-tech-ui
     ports:
       - "8081:8081"
+    links:
+      - back:back
     depends_on:
       - back
     networks:
@@ -13,16 +15,20 @@ services:
     image: ehayanis/stack-tech
     ports:
       - "9000:9000"
+    links:
+      - mongo:mongo
     depends_on:
-      - mongodb
+      - mongo
     networks:
       - mynet
 
-  mongodb:
+  mongo:
     image: ehayanis/mongo
     ports:
       - "28017:28017"
       - "27017:27017"
+    volumes:
+      - /private/var/data:/data/db
     networks:
       - mynet
 
