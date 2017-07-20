@@ -1,8 +1,6 @@
 export M2=/Users/dimeh/Documents/Tools/apache-maven-3.3.9/bin
 export PATH=$PATH:$M2
 
-
-export DIGITALOCEAN_ACCESS_TOKEN=f63699a397dd8176932c578b03fdcdbd00b721733be6ffe38dde44c3cd0ded0d
 export DIGITALOCEAN_PRIVATE_NETWORKING=true
 export DIGITALOCEAN_IMAGE=centos-7-x64
 
@@ -86,9 +84,6 @@ Provision Centos VM, remvoe docker-ce then install docker
 **DOCKER and VMs provisionning AWS**
 > Create an HOME/.aws/credentials file and copy ID and secret key 
 > Run "docker-machine create --driver amazonec2 aws-node"
-
-
-docker swarm join --token SWMTKN-1-3ojs4f8avt30mga96qex39i1m0uien9blvie60t5cburag7tpt-c7yyekfwlzwgfkoyyl2kdftf1 10.132.20.128:2377
 
 **Install and COnfigure Jenkins
 export JENKINS_HOME=/Users/dimeh/Documents/workspace/pic/jenkins/home/

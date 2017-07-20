@@ -1,7 +1,7 @@
 package com.xeigna.ms.demo.controller;
 
-import com.xeigna.ms.demo.model.Person;
-import com.xeigna.ms.demo.service.PersonService;
+import com.xeigna.ms.demo.model.Product;
+import com.xeigna.ms.demo.service.ProductService;
 import com.xeigna.ms.demo.util.CustomErrorType;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,72 +21,73 @@ public class PersonController {
     // public static final Logger logger = LoggerFactory.getLogger();
 
     @Autowired
-    PersonService personService;
+    ProductService productService;
 
-    @RequestMapping(value = "/person", method = RequestMethod.GET)
-    public ResponseEntity<List<Person>> findAll() {
-        List<Person> persons = personService.findAllPersons();
-        if (persons.isEmpty()) {
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
+    public ResponseEntity<List<Product>> findAll() {
+        List<Product> products = productService.findAllProducts();
+        if (products.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<List<Person>>(persons, HttpStatus.OK);
+        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.GET)
-    public ResponseEntity<?> getUser(@PathVariable("id") String id) {
-        Person person = personService.findById(id);
-        if (person == null) {
-            return new ResponseEntity(new CustomErrorType("User with id " + id
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> getProduct(@PathVariable("id") String id) {
+        Product product = productService.findById(id);
+        if (product == null) {
+            return new ResponseEntity(new CustomErrorType("Product with id " + id
                     + " not found"), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Person>(person, HttpStatus.OK);
+        return new ResponseEntity<Product>(product, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/person", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Person person, UriComponentsBuilder ucBuilder) {
-        if (personService.isPersonExist(person)) {
-            return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " +
-                    person.getFirstName() + " already exist."),HttpStatus.CONFLICT);
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    public ResponseEntity<?> createProduct(@RequestBody Product product, UriComponentsBuilder ucBuilder) {
+        if (productService.isProductExist(product)) {
+            return new ResponseEntity(new CustomErrorType("Unable to create. A Product with name " +
+                    product.getName() + " already exist."),HttpStatus.CONFLICT);
         }
-        personService.savePerson(person);
+        productService.saveProduct(product);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/person/{id}").buildAndExpand(person.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/product/{id}").buildAndExpand(product.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updatePerson(@PathVariable("id") String id, @RequestBody Person person) {
-        Person currentPerson = personService.findById(id);
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
+        Product currentProduct = productService.findById(id);
 
-        if (currentPerson == null) {
-            return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
+        if (currentProduct == null) {
+            return new ResponseEntity(new CustomErrorType("Unable to update. Product with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
-        currentPerson.setFirstName(person.getFirstName());
-        currentPerson.setLastName(person.getLastName());
+        currentProduct.setName(product.getName());
+        currentProduct.setDescription(product.getDescription());
+        currentProduct.setPrice(product.getPrice());
 
-        personService.updatePerson(currentPerson);
-        return new ResponseEntity<Person>(currentPerson, HttpStatus.OK);
+        productService.updateProduct(currentProduct);
+        return new ResponseEntity<Product>(currentProduct, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/person/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deletePerson(@PathVariable("id") String id) {
-        Person user = personService.findById(id);
-        if (user == null) {
-            return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") String id) {
+        Product product = productService.findById(id);
+        if (product == null) {
+            return new ResponseEntity(new CustomErrorType("Unable to delete. Product with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
-        personService.deletePersonById(id);
-        return new ResponseEntity<Person>(HttpStatus.NO_CONTENT);
+        productService.deleteProductById(id);
+        return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/person", method = RequestMethod.DELETE)
-    public ResponseEntity<Person> deleteAllPersons() {
-        personService.deleteAllPersons();
-        return new ResponseEntity<Person>(HttpStatus.NO_CONTENT);
+    @RequestMapping(value = "/product", method = RequestMethod.DELETE)
+    public ResponseEntity<Product> deleteAllPersons() {
+        productService.deleteAllProduct();
+        return new ResponseEntity<Product>(HttpStatus.NO_CONTENT);
     }
 
 }
