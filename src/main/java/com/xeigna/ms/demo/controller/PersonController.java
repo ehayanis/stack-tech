@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 public class PersonController {
 
