@@ -88,4 +88,10 @@ Provision Centos VM, remvoe docker-ce then install docker
 **Install and COnfigure Jenkins
 export JENKINS_HOME=/Users/dimeh/Documents/workspace/pic/jenkins/home/
 nohup java -jar jenkins.was &
-nohup java -jar jenkins.war > output.log 2>&1 &
+nohup java -jar jenkins.war > output.log 2>&1 &  
+
+**Kubernetes**  
+> kubectl create -f deployment.yml  
+> kubectl expose deployment stack-tech-deployment --type=LoadBalancer  
+> minikube service stack-tech-deployment  
+> minikube daschboard
