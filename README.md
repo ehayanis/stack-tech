@@ -94,4 +94,12 @@ nohup java -jar jenkins.war > output.log 2>&1 &
 > kubectl create -f deployment.yml  
 > kubectl expose deployment stack-tech-deployment --type=LoadBalancer  
 > minikube service stack-tech-deployment  
-> minikube daschboard
+> minikube daschboard  
+> Open shell on pod: kubectl exec database -i -t -- bash  
+> get service: kubectl exec backapp-deployment-1704483804-gppxs -- printenv | grep SERVICE  
+> set new image: set image deployment/frontapp-deployment stack-tech-ui=ehayanis/stack-tech-ui:2  
+> kubectl rollout status deployment/frontapp-deployment  
+> kubectl rollout history deployment/frontapp-deployment  
+> kubectl rollout history deployment/frontapp-deployment  --revision=2  
+> kubectl rollout undo deployment/frontapp-deployment
+> kubectl scale deployment frontapp-deployment --replicas 2  

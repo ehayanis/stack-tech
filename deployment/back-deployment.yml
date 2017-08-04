@@ -1,0 +1,28 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: backapp-deployment
+
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: backapp
+    spec:
+      containers:
+        - name: stack-tech
+          image: ehayanis/stack-tech
+          ports:
+            - name: back-port
+              containerPort: 9000
+          env:
+            - name: MONGO_HOST
+              value: mongo-service
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: back-port
+          #  initialDelaySeconds: 15
+          #  timeoutSeconds: 3O

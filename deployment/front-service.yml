@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-service
+
+spec:
+  ports:
+    - port: 8081
+      targetPort: front-port
+      protocol: TCP
+  selector:
+    app: frontapp
+  type: NodePort

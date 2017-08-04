@@ -1,0 +1,28 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: frontapp-deployment
+
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontapp
+    spec:
+      containers:
+        - name: stack-tech-ui
+          image: ehayanis/stack-tech-ui
+          ports:
+            - name: front-port
+              containerPort: 8081
+          #env:
+          #  - name: MONGO_HOST
+          #    value: mongo-service
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: back-port
+          #  initialDelaySeconds: 15
+          #  timeoutSeconds: 3O
