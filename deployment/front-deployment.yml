@@ -5,7 +5,7 @@ metadata:
   name: frontapp-deployment
 
 spec:
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: stack-tech-ui
-          image: ehayanis/stack-tech-ui
+          image: ehayanis/stack-tech-ui:3
           ports:
             - name: front-port
               containerPort: 8081
