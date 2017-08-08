@@ -92,7 +92,7 @@ nohup java -jar jenkins.war > output.log 2>&1 &
 
 **Kubernetes**  
 > kubectl create -f deployment.yml  
-> kubectl expose deployment stack-tech-deployment --type=LoadBalancer  
+> kubectl expose deployment stack-tech-deployment --type=NodePort  
 > minikube service stack-tech-deployment  
 > minikube daschboard  
 > Open shell on pod: kubectl exec database -i -t -- bash  
@@ -103,3 +103,11 @@ nohup java -jar jenkins.war > output.log 2>&1 &
 > kubectl rollout history deployment/frontapp-deployment  --revision=2  
 > kubectl rollout undo deployment/frontapp-deployment
 > kubectl scale deployment frontapp-deployment --replicas 2  
+
+**Kubernetes Volumes**  
+>  
+
+**Heapster, Grafana and influxDB**  
+> minikube service monitoring-grafana --namespace=kube-system --url  
+> login: admin, password: admin  
+

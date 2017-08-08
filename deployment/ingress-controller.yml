@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: front-rules
+
+spec:
+  rules:
+    - host: frontapp.example.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: front-service
+              servicePort: 8081

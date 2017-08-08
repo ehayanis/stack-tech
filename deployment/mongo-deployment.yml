@@ -11,9 +11,16 @@ spec:
       labels:
         app: mongo
     spec:
+      volumes:
+        - name: data-volume
+          hostPath:
+            path: /private/var/data
       containers:
         - name: mongo
           image: ehayanis/mongo
+          #volumeMounth:
+          #  - mounthPath: /mongo
+          #    name: data-volume
           ports:
             - name: mongo-port
               containerPort: 27017
