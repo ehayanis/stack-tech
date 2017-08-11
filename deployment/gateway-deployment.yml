@@ -1,0 +1,19 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gatewayapp-deployment
+
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gatewayapp
+    spec:
+      containers:
+        - name: zuul-gateway
+          image: ehayanis/szuul-gateway
+          ports:
+            - name: gateway-port
+              containerPort: 8080
