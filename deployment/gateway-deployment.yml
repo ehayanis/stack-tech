@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: zuul-gateway
-          image: ehayanis/szuul-gateway
+          image: ehayanis/zuul-gateway
           ports:
             - name: gateway-port
               containerPort: 8080
