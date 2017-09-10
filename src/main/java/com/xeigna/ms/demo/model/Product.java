@@ -1,10 +1,14 @@
 package com.xeigna.ms.demo.model;
 
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Product {
 
-    @Id private String id;
+    @Id
+    private String id;
 
     private String name;
     private String description;

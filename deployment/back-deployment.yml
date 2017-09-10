@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: stack-tech
-          image: ehayanis/stack-tech:4
+          image: ehayanis/stack-tech:6
           ports:
             - name: back-port
               containerPort: 9000

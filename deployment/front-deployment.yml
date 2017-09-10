@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: stack-tech-ui
-          image: ehayanis/stack-tech-ui:4
+          image: ehayanis/stack-tech-ui:1
           ports:
             - name: front-port
               containerPort: 8081

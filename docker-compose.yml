@@ -5,14 +5,11 @@ services:
     ports:
       - "9000:9000"
     links:
-      - mongo:mongo
+      - db-service:db-service
     depends_on:
-      - mongo
+      - db-service
 
-  mongo:
-    image: ehayanis/mongo
+  db-service:
+    image: postgres
     ports:
-      - "28017:28017"
-      - "27017:27017"
-    volumes:
-      - /private/var/data:/data/db
+      - "5433:5432"
