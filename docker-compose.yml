@@ -1,15 +1,23 @@
-version: '2'
+version: "3"
+
 services:
   back:
     build: .
     ports:
       - "9000:9000"
-    links:
-      - db-service:db-service
     depends_on:
-      - db-service
+      - pgdb
+    networks:
+      - mynet
 
-  db-service:
+  pgdb:
     image: postgres
     ports:
-      - "5433:5432"
+      - "8001:5432"
+    networks:
+      - mynet
+
+# Add Network to be able to establish connection between bask and DB
+networks:
+    mynet:
+      driver: bridge
