@@ -35,3 +35,468 @@ services:
 networks:
    mynet:
      driver: overlay
+     
+     
+ Messaging
+
+- SNS: Simple Notification Service
+- SQS: Decoupling your applications … Queue !!
+
+Developer Tools
+
+- CodeCommit: Is basically GitHub
+- CodeBuild: a way of compiling a code
+- CodeDeploy: a way of deploying a code to EC2 instances
+- CodePipeline: Keep a trace f deployment pipeline
+
+Desktop & App Streaming
+
+- WorkSpaces: VDI
+- AppStream 2.0: A way of streaming desktop applications to your users
+
+Business Productivity
+
+- WorkDocs
+- WorkMail
+
+Application Services
+
+- Step Functions:
+- SWF: Simple WorkFlow
+- API Gateway: A door for apps to access backend services
+- AppStream: Streaming dekstop application to your users
+- Elastic Transcoder: Change video to different formats
+    - Upload a video and transcode to fit to different devices
+
+Migration
+
+- Snowball: Transfert the content of disques to S3
+    - Copy files to snowball briefcase and send it to Amazon
+- DMS: DB migration Services, No Downtime during migration
+- SMS: Server Migration Service
+    - Migrate to replicate VMs
+
+Security & Identity
+
+- IAM: Identity & Access Management
+    - Doesn’t need a region, it’s universal
+    - New users have NO permissions when first created
+    - New users are assigned Access Key ID & Secret Access Keys when first created, and these are used via the APIs and Command line
+    - Fine-grained access control to AWS resources is a feature of IAM
+    - The AWS sign-in endpoint for SAML is https://signin.aws.amazon.com/saml
+    - You only get to view these credentials once. If you lose them, you have to regenerate them
+    - Activate MFA on your root account: Multi Factor Authentication
+        - In case someone finds your email and PW, it still can’t login without a physical device:
+Download “Google Authenticator” and scan barcode
+    - Two access type: Programmatic (access ID, secret key ID) and AWS management console
+    - Customize password rotation policies
+    - Root, create/edit/Delete groups, users. Assign permissions/ groups to users, set password policy
+    - Users, Groups, Policies Document (JSON format), Roles
+- STS: Security Token Service
+    - Grant users limited and temporary access to AWS resources. Users come from three sources:
+        - Federation (Typically Active Directory)
+        - Federation with Mobile Apps (Google, Facebook.. Open ID to login in
+        - Cross Account access: Let users from one AWS account access resources in another
+    - Federation: Combining or joining a list of users in one domain (such as IAM) with a list of users in another domain (AD, Facebook)
+    - Identity Broker: a service that allows you to take an identity from point A and join it to point B
+    - Identity Store: Services like AD, Facebook, Google
+    - Identities: a users of a service like Facebook etc.
+    - Example:
+        - You are hosting a company website on some EC2 web servers in you VPC. Users of the  website must log in to the site which then authenticates against the companies active directory servers which are based on site at the companies head quarters. Your VPC is connected to your company HQ via a secure IPSEC VPN. Once logged in the user can only have access to their own S3 bucket.
+    - Solution:
+        - Develop an Identity Broker to communicate with LDAP and AWS STS
+        - Identity Broker always authenticates with LDAP first, Then with AWS STS
+        - Application then gets temporary access to AWS resources
+- Active Directory Federation: Through SAML and AD first then sign in to AWS using AssumeRoleWithSAML API
+- Web Identity Federation:
+    - Authenticate first with your identity provider
+    - get your temporary security credentials
+    - call AssumeRoleWithWebIdentity API then you are able to access your AWS resources
+- Inspector: not included
+- Certificate Manager: Free SSL certificate
+- Directory Service: Using AD
+- WAF: Web Application Firewall, gives application level protection (cross sites scripting…)
+- Artifacts: Get compliance Documents (ISO..)
+
+Storage
+
+- S3: (Simple Storage Service) Virtual Disque in the cloud
+    - Not used to install DB, or a computer gare (Use EBS -Elastic block storage- instead)
+- Glacier: Store files and no need instant access to files
+    - Low cost, and takes 4 hours to retrieve them
+- EFS: Elastic File Server, where possible to install DB, and share volumes with VMs
+- Storage Gateway
+
+Management Tools
+
+- Cloud Watch; Monitor Performance
+- Cloud Formation: is a way of turning your physical infrastructure into code
+    - Describe your AWS infrastructure
+- Cloud Trail: Auditing your AWS resources
+- Opsworks: automating Deployment using Chef
+- Config: Monitors your environments and (EX: Edit security policy) sends warnings
+- Service Catalog: For enterprises, allows to build out what you are authorized in your organization to use
+- Trusted Advisor: How to fix security, customize your resource usage
+
+Databases
+
+- RDS: Relational DB Service (MySql, SQL Server, MariaDB, PostgreSQL…)
+- DynamoDB: NoSQL DB
+- Redshift: Used for reports… amazon product
+- Elasticache:
+
+Networking & Content Delivery
+
+- VPC Virtual Private Cloud
+- Virtual Data Center
+
+- Route53: Amazon DNS Server
+- Cloud Front
+- Direct Connect
+    - Directly connect physical DC to AWS Cloud
+- EC2: Virtual Machine in the Cloud
+- EC2 Container Service: (for Docker) Not in the Exam
+- Elastic Beanstalk
+- Lambda: Serverless, upload your code and your code respond with events…
+- Lightsail: (for people who don’t know how to use AWS)
+
+Compute
+Analytics
+
+- Athena: Store files content into DBs
+- EMR: Elastic Map Reduce,
+    - Log analysis, web indexing (using hadoop and Apache Spaark)
+    - Used for Big Data
+- Cloud Search: Similar to Elastic Search, provided by AWS
+- Kinesis: a way of analyzing real time massive data (Social media streams…)
+- Data Pipeline: Move data from one place to an other (From S3 to DynamoDB…)
+- Quick Sight: Business analytic tool (In S3, DynamoDB) and provides dashboard
+
+AWS Global Infrastructure
+
+- 14 Regions & 38 AZ - December 2016
+- Regions is a geographical area, AZ are separated between each other
+
+    4 more regions & 11 More AZ
+    Edge Location is a CDN (Content Delivery Network) End Points for CloudFront
+    There 66 Edge Location
+
+Tests:
+
+- Amazon data warehousing service is called RedShift
+- S3 offers Object based storage
+
+Amazon EC2
+
+- Elastic Compute Cloud
+- Amazon Elastic Compute Cloud is a web service that provides resizable compute capacity in the cloud. Amazon EC2 reduces the time required to obtain and boot new server instances to minutes, allowing you to quickly scale capacity, both up and down, as your computing requirements change.
+- EC2 Options:
+    - OnDemand: Allow you to pay a fixed rate by the hour (or second) with no commitment (for applications with unpredictable workload)
+    - Reserved: Provide you with a capacity reservation, and offer a significant discount on the hourly charge for an instance. 1 hour or 3 year Terms. ability to make upfront payment
+    - Spot: Enable you to bid whatever price you want for instance capacity, providing for even greater savings if your applications have flexible start and end times
+        - if you terminate the instance, you pay for the hour
+        - Is AWS terminates the spot instance, you get the hour if was terminated in for free
+    - Dedicated Hosts: Physical EC2 server dedicated for your use. Dedicated Hosts can help you reduce costs by allowing you to use your existing server-bound software licences
+-  EC2 Instance Types:
+
+- Family
+Speciality
+Use cases
+D2
+Dense Storage
+Fileservers/ Data Warehousing/ Hadoop
+R4
+Memory Optimized
+Memory Intensive Apps/ DBs
+M4
+Generel Purpose
+Application Servers
+C4
+Compute Optimized
+CPU Intensive Apss/ DBs
+G2
+Graphics Intensive
+Video Encoding/ 3D Application Streaming
+I2
+High Speed Storage IOPS
+NoSQL, DBs, Data Warehousing
+F1
+Field Programmable Gate Array
+Hardware acceleration for your code
+T2
+Lowest cost, General purpose
+Web Servers/ Small DBs
+P2
+Graphics
+Machine learning, Bit Coins Mining
+X1
+Memory Optimized
+SAP HANA/ Apache Spark
+
+- DR MC GIFT PX
+- EBS: Amazon EBS allows you to create storage volumes and attach them to Amazon EC2 instances. Once attached, you can create a file system on top of these volumes, run a database, or use them in any other way you would use a block device. Amazon EBS volumes are places in a specific AZ, where they are automatically replicated to protect you from the failure of a single component.
+- IOPS: the requested number of IO operations per second that the volume can support
+- EMS Volume Types:
+    - General purpose SSD (GP2) Up to 10000 IOPS
+    - Provisioned IOPS SSD (IO1) use if you need more than 10000 IOPS
+    - Throughput Optimized HDD (ST1) (Data warehouses, bigdata…) Frequently accessed workloads CANNOT BE USED AS BOOT VOLUME
+    - Cold HDD (SC1) less frequently accessed data, for “fileserver" CANNOT BE USED AS BOOT VOLUME
+    - Magnetic (Standard): Lowest cost per gigabyte. Ideal for workloads where data is accessed infrequently
+- You cannot mount 1 EBS volume to multiple EC2 instances, instead use EFS
+- AMI: Amazon Machine Images
+- Steps to create an EC2 instance:
+    - Choose AMI
+    - Choose instance type T2
+    - configure instance (Network —VPC—, subnet —which AZ—, Shutdown behaviour — stop or terminate instance,
+    - Add storage
+    - Add tags
+    - configure security groups (enable ports)
+- Based monitoring, every 5 minute
+- Cant encrypt root volumes device for EC2 instances
+- Termination protection is turned off by default, you must turn it on
+- On an EBS-backed instance, the default action is for the root EBS volume to be deleted when the instance is terminated
+- The EBS root volume of your default AMI’s cannot be encrypted. You can also use a third party tool (such as bit locker etc) to encrypt the root volume, or this can be done when creating AMI’s in the AWS console or using the API
+- Additional volumes can be encrypted
+- Putty.gen to generate .ppk from .pem file and Putty
+- A security group is a virtual firewall
+    - chkconfig httpd on : make sur httpd start when we reboot
+    - If you are fixing a security group it will happen immediately
+    - Security groups are STATEFUL:
+        - If you create an inbound rule allowing traffic in, that traffic is automatically allowed back out again
+    - default security group means any server can access other server from the same region
+    - Possibility to have many security groups assigned to one EC2 instance
+    - All inbound traffic is blocked by default
+    - All outboud traffic is Allowed
+    - You can have any number of EC2 instances within a security group
+    - You cannot block specific IP addresses using Security Groups, instead use Network Access Control lists
+    - You can allow rules, but cannot deny rules
+- Update EBS from one storage media to an other:
+    - EX: Dev using General SSD or Magnetic and swtich for PROD to Provisioned SSD
+    - Create volume from a Snapshot
+        - Create and attach a volume,
+        - lsblk to show newly created volume
+        - mkfs -t ext4 dev/xvdb
+        - mount /dev/xvdb /localFolder
+        - Create snapshot, and create new volume based on that snapshot. Then mount that volume
+        - file -s /dev/xvdb to check if the volume has data in it, if the result is “data” then it’s empty
+        - remove old volume
+        - mount new volume to localFolder
+    - EBS volumes can be changed on the fly (except for magnetic standard)
+    - Best practice to stop the EC2 instance and then change the volume
+    - You can change volume types by taking a snapshot and then using the snapshot to create a new volume
+    - If you change a volume on the fly you must wait for 6 hours before making another change
+    - You can scale EBS volume volumes up only
+    - Volumes must be in the same AZ as the EC2 instances
+    - Volumes exists on EBS and Snapshots exist on S3
+    - Snapshots are incremental, and this means that only the blocks that have changed since your last snapshot are moved to S3
+    - Snapshots of encrypted volumes are encrypted automatically
+    - Volumes restored from encrypted snapshots are encrypted automatically
+    - You can share snapshots, but only if they are unencrypted
+    - Instance Store Volumes are sometimes called Ephemeral Storage
+    - Instance store volumes cannot be stopped. If the underlying host fails, you will lose your data
+    - EBS backed instances can be stopped. You will not lose the data on the instance if it stopped
+    - You can reboot both, you will not lose your data
+    - How can I a snapshot of a RAID Array:
+        - Problem - Take a snapshot, the snapshot excludes data held in the cache by applications and the OS. This tends not to matter on a single volume, however using multiple volumes in a RAID array, this can be a problem due to interdependencies of the array
+        - Solution: Take an application consitence snapshots:
+            - Stop the application from writing to disk
+            - Flush all caches to the disk
+                - Freeze the file system
+                - OR Unmount the RAID Array
+                - OR Shutting down the associated EC2 instance
+- EFS: Elastic File System
+    - Amazon EFS is a file storage service for Amazon Elastic Cloud instances. Amazon EFS is easy to use and provides a simple interface that allows you to create and configure file systems quickly and easily. With Amazon EFS, storage capacity is elastic, growing and shrinking automatically as you add and remove files, so your applications have the storage they need, when they need it.
+    - EFS Features:
+        - Supports the Network File System 4 (NFSv4) protocol
+        - You only pay for the storage you use (no pre-provisionning required)
+        - Can scale up to the petabytes
+        - Can support thousands of concurrent NFS connections
+        - Data is stored across multiple AZ’s within a region
+        - Read After Write Consistency (As soon as you put your object to EFS, you can immediately read it)
+- AWS Command line
+    - aws configure !! Pass Access Key ID & Secret Access Key
+    - aws help
+    - aws ec2 describe-instances
+    - aws ec2 describe-images
+    - aws ec2 run-instances
+    - aws ec2 run-instances --image-id ami-1a7f6d7e --count 1 --instance-type t2.micro --key-name MyEC2PrivKey --security-group-ids sg-08e51c60
+    - The keyPair and SecurityGroup must exist
+    - Create a bucket in s3 and upload on it, then download that file to your EC2 instance
+aws s3 cp s3://mysample-bucket-s3/index.html .
+    - aws ec2 terminate-instances --instance-ids i-0dfa64612747bc79b
+- Identity Access Management Roles Lab
+    - Role types:
+        - AWS Service role: for every service there is a role associated
+        - AWS service-linked role :
+        - Role for cross-account access : Access other resources in other accounts
+        - Role for identity provider access : EX: Facebook accounts to store data in DynamoDB
+    - Attach Roles to Amazon EC2 instance, No need to login to aws using “aws configure”
+        - Useful when you have many instances and if you have changed your credentials, no need to go through each instance and set new access keys
+- EC2 metadata: curl http://169.254.169.354/latest/meta-data/public-ipv4
+- ELB:
+    - Instances monitored by ELB are reported as: InService or OutofService
+    - Heath Checks check the instance health by talking to it
+    - Have their own DNS name, You are NEVER given an IP address
+    - Application Load Balancer: makes rooting decisions at the application layer (HTTP/ HTTPS) support path-based rooting, and can root requests to one or more ports on each EC2 instance or container instance in your VPC
+    - A Classic Load Balancer makes rooting decisions at either the transport layer (TCP/ SSL) or the application layer (HTTP/ HTTPS) ans supports either EC2 classic or VPC
+- Known available SDKs: https://aws.amazon.com/tools
+    - Android, iOS, Javascript
+    - Java
+    - .NET
+    - NodeJS
+    - PHP
+    - Python
+    - Ruby
+    - Go
+- When using SDKs, Default region may be setup and value is US-EAST-1
+- Summary:
+    - On Demand, Spot, Reserved, Dedicated Hosts
+    - Remember spot instance:
+        - If you terminate the instance, you pay for the hour
+        - If AWS terminates the spot instance, you get the hour it was terminated for free
+    - Standard monitoring = 5 minutes
+    - Detailed monitoring: 1 minute
+    - CloudWatch is for performance monitoring
+        - Creates awesome dashboards to see what is happening with your AWS environment
+        - Allows you to set alarms that notify you when particular thresholds are hit
+        - CloudWatch Events helps you to respond to state changes in your AS resources
+        - Helps you to aggregate, monitor, and store logs
+    - CloudTrail is for auditing
+    - 5XX means server side side error.
+    - 4XX there has been a client side error
+    - 3XX means there has been a redirection
+    - In order to enable encryption at rest using EC2 and Elastic Block Store you need to configure encryption when creating the EBS volume
+    - You can have multiple SSL on elastic Load Balancer
+    - The EC2 instances under the autoscaling group are chargeable. But the autoscaling itself is not
+    - Elastic Load Balancer is chargeable
+    -
+
+Lambda
+
+- What is Lambda: It is encapsulating “Data Center, Hardware, Assembly Code/ Protocols, High Level Languages, Operating Systems, App Layer, AWS API"
+- AWS Lambda is a compute service where you can upload your code and create a Lambda function, AWS Lambda takes care of provisioning and managing the servers that you use to run the code. You don’t have to worry about operating systems, patching, scaling, etc… You can use Lambda in the following ways:
+    - As an event-driven compute service where AWS Lambda runs your code in response to events. These events could be changes to data in an Amazon S3 bucket or an Amazon DynamoDB table
+    - As a compute service to run your code in response to HTTP requests using Amazon API Gateway or API calls made using AWS SDKs.
+
+S3
+
+- S3 provides developers and IT teams with secure, durable, high-scalable object storage. Amazon S3 is easy to use, with a simple web services interface to store and retrieve any amount of data from anywhere on the web
+- S3 is an Object Based Storage where you can store your files, and it’s not a place to install an OS or a DB; for that you need a Block Based Storage
+- Files can be from 0 to 5 TB, unlimited storage
+- Files are stored in buckets (a Folder)
+- S3 is a universal namespace, names must be unique globally
+https://s3-eu-west-1.amazonaws.com/acloudguru
+- Data consistency model for S3
+    - Read after write consistency for PUTS of new objects (Immediate consistency)
+    - Eventual consistency for overwrite PUTS and DELETES (can take sometime to propagates)
+        - Updates to S3 are atomic: Immediate READ might get new data or old data, you are not going to get a partion of data
+- S3 is a simple Key, value store (Key, value, Version ID, Metadata)
+- S3 used to store data in alphabetical order (this of adding random value to file names)
+- Amazon guarantee 99,99% availability
+- Amazon guarantee 99,999999999% durability for S3 information ( 11 * 9’s)
+- S3 supports versionning and encryption
+- data can be secured (access control, bucket policies)
+- S3 - IA (Infrequently Accessed) for data that is accessed less frequently, but requires rapid access when needed. Lower fee than S3, but you are charged a retrieval fee
+- Reduced Redundancy Storage - Designed to provide 99,99% durability and 99,99% availability of objects over a given year
+- Glacier - Very cheap, but used for archival only. It takes 3 - 5 hours to restore from Glacier. 0,01$  per gigabyte
+- No SLA for availability
+- S3 charged for:
+    - Storage
+    - Requests
+    - Storage management pricing
+    - Data transfer pricing (data coming to S3 is free, but moving data from a region to an other will be charged for)
+    - S3 Transfer Acceleration (upload data to London, user upload to the closest Edge location and then from edge location to London, moving data is accelerated)
+- By default all buckets are private and ALL OBJECTS STORED INSIDE THEM ARE PRIVATE
+- Objects within a tag don’t inherits bucket tags
+- Encryption:
+    - Client side encryption
+    - Server side encryption
+        - Server side encryption with Amazon S3 Managed keys (SSE-S3)
+        - Server side encryption with KMS (SSE-KMS)
+        - Server side encryption with customer provided keys (SSE-C)
+- Control access to buckets using either ACL or Buckets Policies
+- URL of static web site hosting in S3: http://ehayanis10.s3-website.eu-west-2.amazonaws.com
+- Cross Origin Resource Sharing (CORS)
+    - A way of allowing one resource to access another one
+- Build a Serverless webpage with API gateway & Lambda
+    - User —> WebSite —> S3 —> API Gateway —> Lambda
+    - Lambda Triggers: API Gateway — AWS IoT — Alexa Skills Kit — Alexa Smart Home — Cloud Front — CloudWatch Events — CloudWatch logs — CodeCommit — Cognito Sync Trigger — DynamoDB — Kinesis — S3 — SNS
+- Polly : Text speech Recognition Service
+    - Lab: a service that converts notes to mp3
+- In a bucket with versionning enabled, storage size is the sum of all versions
+- In S3, to restore an object, you need to switch to old UI and remove "delete” item
+- Once enabled, versionning cannot be disabled. it can only be suspended
+- Cross-region replication requires versionning enabled on source and destination bucket
+- Cross-region Replication by default copies only updated or newly added objects. To copy existing content, we use command line:
+aws s3 cp --recursive s3://firstBucket s3://secondBucket
+- Delete markers are replicated
+- Delete individual versions or delete markers will not be replicated
+
+Cloud Front
+
+- Cloud Front is a Content Delivery Network CDN is a system of distributed servers (network) that deliver webpages and other web content to a user based on the geographic locations of the user, the origin of the webpage and a content delivery server.
+
+- Edge Location: This is the location where content will be cached. This is SEPARATE to an AWS Region/ AZ
+- Origin: This is the origin of all files tat the CDN will distribute. This can be either an S3 bucket, an EC2 Instance..
+- Distribution: This is the name given to the CDN which consists of a collection of Edge Locations
+    - Web Distribution
+    - RTMP: USed for MEdia Streaming
+- Amazon CloudFront can be used to deliver your entire website, including dynamic, static, streaming, and interactive content using a global network of edge locations. Requests for your content are automatically routed to the NEAREST EDGE LOCATION, so content is delivered with the best possible performance
+- Amazon CloudFront works with any non-AWS origin server, which stores the original, definitive versions of your files
+- Edge Location are not just for READ Only, you can write to them too (ie put an object on to them)
+- Objects are cached for the life of the TTL
+- You can clear cached objects, but you will be charged
+- TTL are in seconds,
+- Watch out when setting TTL, by default it’s set for 24h, and if your objects are changing frequently you need to change that value.
+Because once it’s set it will be difficult to clear objects of the edge location. you can do it manually but you will charged for it
+- How to secure CloudFront objects in S3 and allow only paying customers use it, use presigned urls or signed cookies
+- Is a CloudFront distribution you can enable GEO-Restrictions, make a blacklist of countries
+- Invalidations Option: allow to stop specific objects from being cached, instead of waiting until the end of TTL
+- S3 Transfer Acceleration utilises the CloudFront Edge Network to accelerate your uploads to S3. Instead of uploading directly to your S3 bucket, you can use a distinct URL to upload directly to an edge location which will then transfer that file to S3. You will get a distinct URL to upload
+acloudguru.s3-accelerate.amazonaws.com
+
+Security & Encryption
+
+- By default, all newly created buckets are PRIVATE
+- You can setup access control to your buckets using:
+    - Bucket Policies
+    - Access control lists (By Objects)
+- S3 buckets can be configured to create access logs which log all requests made to the S3 bucket. This can be done to another bucket
+- two types of encryption:
+    - In Transit: SSL/ TLS
+    - At Rest:
+        - Server Side Encryption
+            - S3 Managed Keys: SSE-S3
+            - AWS Key Management Service, SSE-KMS, additional Benefits (ability to know who is decrypting what), and additional Charges
+            - Server Side Encryption with Customer Provided Keys - SSE-C
+        - Client Side Encryption
+            - When you encrypt the data before uploading the data to S3
+
+Storage Gateway
+
+- AWS Storage Gateway is a service that connects an on-permises software with cloud-based storage to provide seamless and secure integration between an organisation’s on-permises IT environment and AWS’s storage infrastructure. The service enables you to securely store data to the AWS cloud for scalable and cost-effective storage
+- Storage gateway is basically a virtual client
+- AWS Storage Gateway’s software appliance is available for download as a virtual machine image that you install on a host in your datacenter.
+Storage Gateway supports either VMware ESXi or Microsoft Hyper-V
+- Based on Direct Connect service, which is a dedicated communication line between your datacenter and AWS
+- Four types of Storage Gateway
+    - File Gateway (NFS) : store flat files in S3, word files, pdf… No OS or DB
+        - Files are stored as objects in your S3 buckets, accessed through a Network File System (NFS) mount point. Ownership, permissions, and timestamps are durably stored in S3 in the user-metadata of the object associated with the file. Once objects are transferred to S3, they can be managed as native S3 objects, and bucket policies such as versioning, lifecycle management, and cross-region replication apply directly to objects stored in your bucket
+    - Volumes Gateway (iSCSI) ie Hard disk with MySQL running on it
+        - Stored Volumes (store entire copy of dataset)
+        - - Let you store our primary data locally, while asynchronously backing up the data to AWS
+        - Cached Volumes (keep only recent data locally and the rest of the data is backed of into Amazon)
+        - - Let you use S3 as your primary data storage while retaining frequently accessed data locally in your storage gateway. Cached volumes minimise te need to scale your on-permises storage infrastructure
+    - Tape Gateway (VTL) allows to create virtual tapes and send the to AWS)
+        - Offers a durable, cost-effective solution to archive your data in the AWS Cloud
+Used for backup and uses popular backup applications like NetBackup, Backup Exec, Veam, etc
+
+Snowball
+
+- AWS Import/Export Disk accelerated moving large amounts of data into and out of the AWS Cloud using portable storage devices for transport.
+AWS import/Export Disk transfers your data directly onto and off of storage devices using Amazon’s high-speed internal network and bypassing the Internet
+—> Became it’s a nightmare to manage all type of devices
+- Snowball: Snowball is a petabyte-scale data transport solution that uses secure appliances to transfer targe amounts of data into and out of AWS. Using Snowball addresses common challenges with large-scale data transfers including high network costs, long transfer times, and security concerns.
+- Snowball Edge: is a 100TB data transfer device with on-board storage and compute capabilities. You can use Snowball edge to move large amounts of data into and out of AWS, as a temporary storage tier for large local datasets, or to support local workload in remote or offline locations (Can cluster to form a local storage tier and process your data on-permises, helping ensure your applications continue to run even when they are not able to access the cloud
+- Snowmobile: Gigabytes, Terabytes, Petabytes, Exabytes
+- It is a Exabyte-scale data transfer service used to move extremely large amounts of data to AWS. You can transfer up to 100PB per Snowmobile. a 45-foot long shipping container, pulled by a semi-trailer truck
