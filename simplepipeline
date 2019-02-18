@@ -1,0 +1,33 @@
+//def label = "worker-${UUID.randomUUID().toString()}"
+
+//podTemplate(label: label, containers: [
+//   containerTemplate(name: 'maven', image: 'arclab.azurecr.io/jenkins-slave:1.0', ttyEnabled: true, command: 'cat')
+//]) {
+
+node('jenkins-slave') {
+  container('maven-java') {
+   stage('Preparation') {
+     git 'https://github.com/ehayanis/ms-helloworld.git'
+     sh "ls -ltr /usr/bin"
+   }
+   
+   stage('Build') {
+      // sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+      withMaven (mavenLocalRepo: '.repository') {
+        sh "mvn -Dmaven.test.failure.ignore clean package"   
+      }
+   }
+   
+   stage ('SonarQube Analysis') {
+     withSonarQubeEnv('sonar-server') {
+        sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar"
+     }
+   }
+   
+   //stage('Results') {
+   //  junit '**/target/surefire-reports/TEST-*.xml'
+   //   archive 'target/*.jar'
+   //}
+}
+}
+//}
