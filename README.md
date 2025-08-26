@@ -1,113 +1,82 @@
-export M2=/Users/dimeh/Documents/Tools/apache-maven-3.3.9/bin
-export PATH=$PATH:$M2
+Chronologie détaillée de l’incident (exemple avec heures fictives à adapter)
 
-export DIGITALOCEAN_PRIVATE_NETWORKING=true
-export DIGITALOCEAN_IMAGE=centos-7-x64
+Jour J (date de la mise à jour)
 
-> docker build -t ehayanis/stack-tech .
-=======
-**Download and Start Mongo DB Server**
-> docker run -P -d --name mongodb mongo
+09h00 – Début de la montée de version Xray 3.96.1 → 3.111.24.
 
-**to push an image:
-Docker login 
-docker push ehayanis/IMAGE_NAME
+09h30 – Redémarrage des services, mise à jour terminée. Aucun message d’erreur constaté.
 
-**Use of mongodb**
-> docker exec -it mongodb /bin/bash <br>
-> mongo admin -u admin -p OapsdL7wpSD0 --host localhost --port 28017
+10h30 – Premières alertes internes : lenteur inhabituelle sur les scans.
 
-**Create and list collections**
-> use microserviceblog
-> db.createCollection('testCollection')
-> db.getCollectionNames() 
+11h00 – Constat : certains scans affichent des temps estimés de plusieurs jours (jusqu’à 5 jours).
 
-> show dbs
-To display the DB you are using;
-> db 
-The operation should return test which is the default database. To switch DB 
-> use <database>
+12h00 – Signalements d’incidents par les utilisateurs (blocage des workflows dépendant des scans).
 
+13h30 – Vérification des métriques : CPU base de données à 100% en continu.
 
-**MongoDB Overview**
-> Database, Collection (Table), Document (Row)
+14h00 – Première action corrective : redémarrage du service Xray. Résultat : aucune amélioration.
 
-**Insert into collection**
-> db.mycol.insert({
-     _id: ObjectId(7df78ad8902c),<br>
-     title: 'MongoDB Overview', <br>
-     description: 'MongoDB is no sql database',<br>
-     by: 'tutorials point',<br>
-     url: 'http://www.tutorialspoint.com',<br>
-     tags: ['mongodb', 'database', 'NoSQL'],<br>
-     likes: 100<br>
-  })
-  
-**Find Document in Collection**
-> db.testCollection.find({"by":"tutorials point"}).pretty() <br>
-> db.testCollection.find({$and:[{"by":"tutorials point"},{"likes": "$gt:50"}]}).pretty()
+15h30 – Application d’un patch correctif sur la version 3.111.24. Résultat : problème persistant.
 
-**Update and sate methods**
-> The update method updates the value in the existing document, while save replaces the existing document 
+16h30 – Multiples redémarrages supplémentaires pour tenter de stabiliser le service.
 
-**Remove Documents**
-> To remove all elements <br> 
-db.testCollection.remove() <br>
-> To remove specific elements <br>
-db.testCollection.remove({'title':'MongoDB Overview'})
+17h00 – Situation inchangée : lenteurs critiques, incidents utilisateurs en augmentation.
 
+18h00 – Décision de rollback vers version 3.96.1 pour rétablir le service.
 
-**DOCKER and VMs provisionning DO**
-> docker-machine env demo-machine 
+18h30 – Rollback effectué avec succès. Retour des performances normales.
 
-> eval $(docker-machine env demo-machine)
-> Switch back to local: eval $(docker-machine env -u)
-> docker info 
+19h00 – Validation par les équipes : service stabilisé, incidents utilisateurs résorbés.
 
-> docker-compose up -d
+2️⃣ Rapport d’incident – Post-Mortem
+📌 Contexte
 
+Projet : Mise à jour de JFrog Xray.
 
-** Set Counsl and Docker Swarm ** 
-Export KV IP: 
-export KV_IP="10.132.20.128"
+Version cible : 3.111.24 (depuis 3.96.1).
 
-**Using POSTMAN** 
-POST method, body raw type and content-type json 
-value: {"firstName":"Luis","lastName":"OSS"}
+Objectif : bénéficier des correctifs et améliorations de la version récente.
 
+📌 Impact
 
-**Error: Can't connect to docker daemon**
-Provision Centos VM, remvoe docker-ce then install docker 
--- add root to docker group 
--- usermod -aG docker $(whoami)
+Durée de l’incident : ~9h (09h30 – 18h30).
 
-**DOCKER and VMs provisionning AWS**
-> Create an HOME/.aws/credentials file and copy ID and secret key 
-> Run "docker-machine create --driver amazonec2 aws-node"
+Services impactés :
 
-**Install and COnfigure Jenkins
-export JENKINS_HOME=/Users/dimeh/Documents/workspace/pic/jenkins/home/
-nohup java -jar jenkins.was &
-nohup java -jar jenkins.war > output.log 2>&1 &  
+Scans Xray (analyse des artefacts).
 
-**Kubernetes**  
-> kubectl create -f deployment.yml  
-> kubectl expose deployment stack-tech-deployment --type=NodePort  
-> minikube service stack-tech-deployment  
-> minikube daschboard  
-> Open shell on pod: kubectl exec database -i -t -- bash  
-> get service: kubectl exec backapp-deployment-1704483804-gppxs -- printenv | grep SERVICE  
-> set new image: set image deployment/frontapp-deployment stack-tech-ui=ehayanis/stack-tech-ui:2  
-> kubectl rollout status deployment/frontapp-deployment  
-> kubectl rollout history deployment/frontapp-deployment  
-> kubectl rollout history deployment/frontapp-deployment  --revision=2  
-> kubectl rollout undo deployment/frontapp-deployment
-> kubectl scale deployment frontapp-deployment --replicas 2  
+Workflows dépendants des scans bloqués.
 
-**Kubernetes Volumes**  
->  
+Utilisateurs impactés : l’ensemble des équipes utilisant Xray.
 
-**Heapster, Grafana and influxDB**  
-> minikube service monitoring-grafana --namespace=kube-system --url  
-> login: admin, password: admin  
+Gravité : Haute (dégradation majeure du service, interruption de production).
 
+📌 Causes identifiées
+
+Anomalie de performance introduite avec la version 3.111.24.
+
+Saturation CPU de la base de données à 100% en continu, entraînant des temps de traitement excessifs.
+
+Les actions correctives tentées (redémarrages, patch correctif) n’ont pas résolu le problème.
+
+📌 Actions correctives
+
+Redémarrage du service Xray (sans effet).
+
+Application d’un patch 3.111.24 (sans effet).
+
+Multiples tentatives de stabilisation dans l’après-midi.
+
+Rollback vers la version 3.96.1 à 18h00 → retour à la normale.
+
+📌 Recommandations / Next Steps
+
+Planifier un test en environnement de pré-production avant toute montée de version Xray.
+
+Analyser les logs Xray et BD pour identifier précisément la cause du CPU élevé.
+
+Contacter le support JFrog pour vérifier s’il existe un correctif spécifique ou une version stable recommandée.
+
+Mettre en place une procédure de rollback documentée pour accélérer la décision et l’exécution en cas d’incident similaire.
+
+Surveiller en continu la charge CPU BD après toute évolution de version.
