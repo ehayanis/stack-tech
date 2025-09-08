@@ -80,3 +80,8 @@ Contacter le support JFrog pour vérifier s’il existe un correctif spécifique
 Mettre en place une procédure de rollback documentée pour accélérer la décision et l’exécution en cas d’incident similaire.
 
 Surveiller en continu la charge CPU BD après toute évolution de version.
+
+
+
+export SBT_OPTS="-Dsbt.override.build.repos=true -Dsbt.repository.config=/home/youruser/.sbt/repositories"
+export JAVA_OPTS="-Dsbt.override.build.repos=true -Dsbt.repository.config=/home/youruser/.sbt/repositories"
