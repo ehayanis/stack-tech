@@ -85,3 +85,11 @@ Surveiller en continu la charge CPU BD après toute évolution de version.
 
 export SBT_OPTS="-Dsbt.override.build.repos=true -Dsbt.repository.config=/home/youruser/.sbt/repositories"
 export JAVA_OPTS="-Dsbt.override.build.repos=true -Dsbt.repository.config=/home/youruser/.sbt/repositories"
+
+
+php -r 'require "vendor/autoload.php";
+if (class_exists(\Composer\InstalledVersions::class)) {
+  echo \Composer\InstalledVersions::getPrettyVersion("symfony/security-http") . PHP_EOL;
+} else {
+  fwrite(STDERR, "Composer InstalledVersions not available\n");
+}'
