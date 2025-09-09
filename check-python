@@ -1,0 +1,30 @@
+find / -type f -path "*/vendor/composer/installed.json" 2>/dev/null \
+ -exec sh -c '
+  for f; do
+    app=${f%/composer/installed.json}
+    ver=$(php -r '"'"'$j=json_decode(file_get_contents($argv[1]),true);
+      $pkgs = isset($j["packages"]) ? $j["packages"] : $j;
+      foreach ($pkgs as $p) { if ($p["name"]==="symfony/security-http") { echo $p["pretty_version"] ?? $p["version"]; exit; } }
+    '"'"' "$f")
+    if [ -n "$ver" ]; then printf "%s -> %s\n" "$app" "$ver"; fi
+  done
+ ' sh {} +
+
+
+find / -type f -name composer.lock 2>/dev/null \
+ -exec sh -c '
+  for f; do
+    ver=$(php -r '"'"'$d=json_decode(file_get_contents($argv[1]),true);
+      foreach (["packages","packages-dev"] as $k) {
+        foreach (($d[$k]??[]) as $p) {
+          if ($p["name"]==="symfony/security-http") { echo $p["version"]; exit; }
+        }
+      }'"'"' "$f")
+    if [ -n "$ver" ]; then printf "%s -> %s\n" "$f" "$ver"; fi
+  done
+ ' sh {} +
+
+
+find /root/.cache/composer /root/.composer /var/www/.cache/composer /var/www/.composer /home \
+  -type f -path "*/files/symfony/security-http/*" 2>/dev/null \
+  -printf "CACHE: %p\n"
