@@ -93,3 +93,18 @@ if (class_exists(\Composer\InstalledVersions::class)) {
 } else {
   fwrite(STDERR, "Composer InstalledVersions not available\n");
 }'
+
+
+
+docker run --rm -it YOUR_IMAGE sh -c '
+  echo "## OS:"; cat /etc/os-release 2>/dev/null || true
+  echo; echo "## expat packages (common distros):"
+  (command -v dpkg >/dev/null && dpkg -l | grep -E "expat|libexpat") || true
+  (command -v rpm  >/dev/null && rpm -qa | grep -E "^expat|libexpat") || true
+  (command -v apk  >/dev/null && apk info -a expat 2>/dev/null | sed -n "1,5p") || true
+  echo; echo "## shared object (fallback):"
+  (ldconfig -p 2>/dev/null | grep -i expat) || true
+  for so in /lib*/**/libexpat.so* /usr/lib*/**/libexpat.so* 2>/dev/null; do
+    [ -r "$so" ] && echo "$so ->" && strings "$so" | grep -m1 -E "^expat_|^Expat|^XML_ExpatVersion" || true
+  done
+'
