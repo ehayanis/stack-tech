@@ -108,3 +108,31 @@ docker run --rm -it YOUR_IMAGE sh -c '
     [ -r "$so" ] && echo "$so ->" && strings "$so" | grep -m1 -E "^expat_|^Expat|^XML_ExpatVersion" || true
   done
 '
+
+
+curl --fail-with-body -sS \
+  -H "Authorization: Bearer $JFROG_TOKEN" \
+  -H "Content-Type: text/plain" \
+  --data-binary @aql2 \
+  "$ARTIFACTORY_URL/api/search/aql" |
+jq '
+  def prop($key):
+    [.properties[]? | select(.key == $key) | .value][0];
+
+  .results
+  | group_by([.repo, prop("docker.repoName")])
+  | map(
+      group_by(.path)
+      | map(max_by(.created))
+      | sort_by(.created)
+      | reverse
+      | .[:10]
+      | map({
+          image: prop("docker.repoName"),
+          tag: prop("docker.manifest"),
+          created,
+          path
+        })
+    )
+  | flatten
+'
